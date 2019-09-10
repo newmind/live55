@@ -36,11 +36,11 @@ Boolean proxyREGISTERRequests = False;
 char* usernameForREGISTER = NULL;
 char* passwordForREGISTER = NULL;
 
-static RTSPServer* createRTSPServer(Port port) {
+static RTSPServer* createRTSPServer(Port port, unsigned reclamationSeconds = 0) {
   if (proxyREGISTERRequests) {
-    return RTSPServerWithREGISTERProxying::createNew(*env, port, authDB, authDBForREGISTER, 65, streamRTPOverTCP, verbosityLevel, username, password);
+    return RTSPServerWithREGISTERProxying::createNew(*env, port, authDB, authDBForREGISTER, reclamationSeconds/*65*/, streamRTPOverTCP, verbosityLevel, username, password);
   } else {
-    return RTSPServer::createNew(*env, port, authDB);
+    return RTSPServer::createNew(*env, port, authDB, reclamationSeconds);
   }
 }
 
